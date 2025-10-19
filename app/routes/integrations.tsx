@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Edit, CheckCircle, XCircle } from "lucide-react";
+import ProtectedRoute from "../components/ProtectedRoute";
 import AppLayout from "../components/AppLayout";
 import {
     getIntegrations,
@@ -8,7 +9,7 @@ import {
     updateIntegration,
     type Integration,
 } from "../lib/integrationConfig";
-import { ProxmoxAPI } from "../lib/proxmoxApi";
+import { testProxmoxConnection } from "../lib/proxmoxTest";
 
 export function meta() {
     return [
@@ -17,7 +18,7 @@ export function meta() {
     ];
 }
 
-// Proxmox Integration Form (ZUERST definieren)
+// 1. Proxmox Integration Form
 function ProxmoxIntegrationForm({
                                     onClose,
                                     onSave,
@@ -39,34 +40,33 @@ function ProxmoxIntegrationForm({
         setTesting(true);
         setTestResult(null);
 
-        try {
-            const api = new ProxmoxAPI({ host, port, tokenId, tokenSecret });
-            const success = await api.testConnection();
-            setTestResult(success ? 'success' : 'error');
-        } catch {
-            setTestResult('error');
-        } finally {
-            setTesting(false);
-        }
+        const result = await testProxmoxConnection(host, port, tokenId, tokenSecret);
+
+        setTestResult(result.success ? 'success' : 'error');
+        setTesting(false);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         const integration: Integration = {
             id: existingIntegration?.id || `proxmox-${Date.now()}`,
             name: name,
             type: 'proxmox',
             config: { host, port, tokenId, tokenSecret },
-            createdAt: existingIntegration?.createdAt || new Date().toISOString(),
+            created_at: existingIntegration?.created_at || new Date().toISOString(),
         };
 
-        if (existingIntegration) {
-            updateIntegration(integration.id, integration);
-        } else {
-            saveIntegration(integration);
-        }
+        try {
+            if (existingIntegration) {
+                await updateIntegration(integration.id, integration);
+            } else {
+                await saveIntegration(integration);
+            }
 
-        onSave();
-        onClose();
+            onSave();
+            onClose();
+        } catch (error) {
+            console.error('Failed to save integration:', error);
+        }
     };
 
     return (
@@ -82,9 +82,7 @@ function ProxmoxIntegrationForm({
 
                 <div className="p-6 space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Name
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
                         <input
                             type="text"
                             value={name}
@@ -95,9 +93,7 @@ function ProxmoxIntegrationForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Host
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Host</label>
                         <input
                             type="text"
                             value={host}
@@ -108,9 +104,7 @@ function ProxmoxIntegrationForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            Port
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Port</label>
                         <input
                             type="text"
                             value={port}
@@ -121,9 +115,7 @@ function ProxmoxIntegrationForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            API Token ID
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">API Token ID</label>
                         <input
                             type="text"
                             value={tokenId}
@@ -134,9 +126,7 @@ function ProxmoxIntegrationForm({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            API Token Secret
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">API Token Secret</label>
                         <input
                             type="password"
                             value={tokenSecret}
@@ -169,10 +159,7 @@ function ProxmoxIntegrationForm({
                 </div>
 
                 <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-                    >
+                    <button onClick={onClose} className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
                         Abbrechen
                     </button>
                     <button
@@ -188,7 +175,7 @@ function ProxmoxIntegrationForm({
     );
 }
 
-// Add Integration Dialog
+// 2. Add Integration Dialog
 function AddIntegrationDialog({
                                   onClose,
                                   onSave,
@@ -214,12 +201,8 @@ function AddIntegrationDialog({
 
             <div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                        Integration hinzufügen
-                    </h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        Wähle den Service aus, den du verbinden möchtest
-                    </p>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">Integration hinzufügen</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Wähle den Service aus, den du verbinden möchtest</p>
                 </div>
 
                 <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -237,26 +220,17 @@ function AddIntegrationDialog({
                             <div className="flex items-center gap-3 mb-2">
                                 <span className="text-4xl">{type.icon}</span>
                                 <div>
-                                    <h3 className="font-semibold text-gray-900 dark:text-white">
-                                        {type.name}
-                                    </h3>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        {type.description}
-                                    </p>
+                                    <h3 className="font-semibold text-gray-900 dark:text-white">{type.name}</h3>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">{type.description}</p>
                                 </div>
                             </div>
-                            {type.disabled && (
-                                <span className="text-xs text-gray-500">Bald verfügbar</span>
-                            )}
+                            {type.disabled && <span className="text-xs text-gray-500">Bald verfügbar</span>}
                         </button>
                     ))}
                 </div>
 
                 <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-end">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
-                    >
+                    <button onClick={onClose} className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
                         Abbrechen
                     </button>
                 </div>
@@ -265,7 +239,7 @@ function AddIntegrationDialog({
     );
 }
 
-// Edit Integration Dialog
+// 3. Edit Integration Dialog
 function EditIntegrationDialog({
                                    integration,
                                    onClose,
@@ -276,19 +250,12 @@ function EditIntegrationDialog({
     onSave: () => void;
 }) {
     if (integration.type === 'proxmox') {
-        return (
-            <ProxmoxIntegrationForm
-                onClose={onClose}
-                onSave={onSave}
-                existingIntegration={integration}
-            />
-        );
+        return <ProxmoxIntegrationForm onClose={onClose} onSave={onSave} existingIntegration={integration} />;
     }
-
     return null;
 }
 
-// Integration Card Component
+// 4. Integration Card
 function IntegrationCard({
                              integration,
                              onDelete,
@@ -306,17 +273,15 @@ function IntegrationCard({
         setTesting(true);
         setTestResult(null);
 
-        try {
-            if (integration.type === 'proxmox') {
-                const api = new ProxmoxAPI(integration.config);
-                const success = await api.testConnection();
-                setTestResult(success ? 'success' : 'error');
-            }
-        } catch {
-            setTestResult('error');
-        } finally {
-            setTesting(false);
-        }
+        const result = await testProxmoxConnection(
+            integration.config.host,
+            integration.config.port,
+            integration.config.tokenId,
+            integration.config.tokenSecret
+        );
+
+        setTestResult(result.success ? 'success' : 'error');
+        setTesting(false);
     };
 
     const getIcon = () => {
@@ -334,12 +299,8 @@ function IntegrationCard({
                     <div className="flex items-center gap-3">
                         <span className="text-4xl">{getIcon()}</span>
                         <div>
-                            <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
-                                {integration.name}
-                            </h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">
-                                {integration.type}
-                            </p>
+                            <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{integration.name}</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">{integration.type}</p>
                         </div>
                     </div>
                     {testResult && (
@@ -351,7 +312,6 @@ function IntegrationCard({
                     )}
                 </div>
 
-                {/* Integration Details */}
                 <div className="mb-4 space-y-1 text-sm">
                     {integration.type === 'proxmox' && (
                         <>
@@ -364,11 +324,10 @@ function IntegrationCard({
                         </>
                     )}
                     <div className="text-xs text-gray-500 dark:text-gray-500 mt-2">
-                        Erstellt: {new Date(integration.createdAt).toLocaleDateString('de-DE')}
+                        Erstellt: {new Date(integration.created_at).toLocaleDateString('de-DE')}
                     </div>
                 </div>
 
-                {/* Actions */}
                 <div className="flex items-center gap-2">
                     <button
                         onClick={handleTest}
@@ -377,104 +336,91 @@ function IntegrationCard({
                     >
                         {testing ? 'Teste...' : 'Testen'}
                     </button>
-                    <button
-                        onClick={() => setShowEdit(true)}
-                        className="p-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors"
-                        title="Bearbeiten"
-                    >
+                    <button onClick={() => setShowEdit(true)} className="p-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors" title="Bearbeiten">
                         <Edit size={18} />
                     </button>
-                    <button
-                        onClick={() => onDelete(integration.id)}
-                        className="p-2 text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 transition-colors"
-                        title="Löschen"
-                    >
+                    <button onClick={() => onDelete(integration.id)} className="p-2 text-gray-600 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 transition-colors" title="Löschen">
                         <Trash2 size={18} />
                     </button>
                 </div>
             </div>
 
-            {showEdit && (
-                <EditIntegrationDialog
-                    integration={integration}
-                    onClose={() => setShowEdit(false)}
-                    onSave={onUpdate}
-                />
-            )}
+            {showEdit && <EditIntegrationDialog integration={integration} onClose={() => setShowEdit(false)} onSave={onUpdate} />}
         </>
     );
 }
 
-// Main Component (ZULETZT)
+// 5. Main Component
 export default function Integrations() {
     const [integrations, setIntegrations] = useState<Integration[]>([]);
     const [showAddDialog, setShowAddDialog] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         loadIntegrations();
     }, []);
 
-    const loadIntegrations = () => {
-        const all = getIntegrations();
-        setIntegrations(Object.values(all));
+    const loadIntegrations = async () => {
+        try {
+            const data = await getIntegrations();
+            setIntegrations(data);
+        } catch (error) {
+            console.error('Failed to load integrations:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleDelete = (id: string) => {
+    const handleDelete = async (id: string) => {
         if (confirm('Integration wirklich löschen?')) {
-            deleteIntegration(id);
-            loadIntegrations();
+            try {
+                await deleteIntegration(id);
+                loadIntegrations();
+            } catch (error) {
+                console.error('Failed to delete integration:', error);
+            }
         }
     };
 
     return (
-        <AppLayout>
-            <div className="p-6 bg-gray-50 dark:bg-gray-950 min-h-full">
-                <div className="max-w-6xl mx-auto">
-                    {/* Description */}
-                    <div className="mb-6">
-                        <p className="text-gray-600 dark:text-gray-400">
-                            Verwalte deine Service-Verbindungen zentral
-                        </p>
-                    </div>
+        <ProtectedRoute>
+            <AppLayout>
+                <div className="p-6 bg-gray-50 dark:bg-gray-950 min-h-full">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="mb-6">
+                            <p className="text-gray-600 dark:text-gray-400">Verwalte deine Service-Verbindungen zentral</p>
+                        </div>
 
-                    {/* Add Button */}
-                    <div className="mb-6">
-                        <button
-                            onClick={() => setShowAddDialog(true)}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 transition-colors"
-                        >
-                            <Plus size={20} />
-                            Integration hinzufügen
-                        </button>
-                    </div>
+                        <div className="mb-6">
+                            <button onClick={() => setShowAddDialog(true)} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 transition-colors">
+                                <Plus size={20} />
+                                Integration hinzufügen
+                            </button>
+                        </div>
 
-                    {/* Integrations Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {integrations.length === 0 ? (
-                            <div className="col-span-full text-center py-12 text-gray-500 dark:text-gray-400">
-                                <p className="text-lg mb-2">Keine Integrationen vorhanden</p>
-                                <p className="text-sm">Füge deine erste Integration hinzu</p>
+                        {loading ? (
+                            <div className="text-center py-12">
+                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
                             </div>
                         ) : (
-                            integrations.map((integration) => (
-                                <IntegrationCard
-                                    key={integration.id}
-                                    integration={integration}
-                                    onDelete={handleDelete}
-                                    onUpdate={loadIntegrations}
-                                />
-                            ))
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {integrations.length === 0 ? (
+                                    <div className="col-span-full text-center py-12 text-gray-500 dark:text-gray-400">
+                                        <p className="text-lg mb-2">Keine Integrationen vorhanden</p>
+                                        <p className="text-sm">Füge deine erste Integration hinzu</p>
+                                    </div>
+                                ) : (
+                                    integrations.map((integration) => (
+                                        <IntegrationCard key={integration.id} integration={integration} onDelete={handleDelete} onUpdate={loadIntegrations} />
+                                    ))
+                                )}
+                            </div>
                         )}
                     </div>
-                </div>
 
-                {showAddDialog && (
-                    <AddIntegrationDialog
-                        onClose={() => setShowAddDialog(false)}
-                        onSave={loadIntegrations}
-                    />
-                )}
-            </div>
-        </AppLayout>
+                    {showAddDialog && <AddIntegrationDialog onClose={() => setShowAddDialog(false)} onSave={loadIntegrations} />}
+                </div>
+            </AppLayout>
+        </ProtectedRoute>
     );
 }

@@ -1,4 +1,5 @@
 import type { ProxmoxConfig } from './serviceConfig';
+import { getToken } from './auth';
 
 export interface ProxmoxVM {
     vmid: number;
@@ -24,17 +25,19 @@ export interface ProxmoxNodeStats {
 
 export class ProxmoxAPI {
     private config: ProxmoxConfig;
-    private proxyUrl: string = '/api/proxmox';
+    private proxyUrl: string = 'http://localhost:3001/api/proxmox';
 
     constructor(config: ProxmoxConfig) {
         this.config = config;
     }
 
     private async query(endpoint: string) {
+        const token = getToken();
         const response = await fetch(`${this.proxyUrl}/query`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             },
             body: JSON.stringify({
                 host: this.config.host,
@@ -45,19 +48,28 @@ export class ProxmoxAPI {
             }),
         });
 
+        if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+            throw new Error('Authentication expired');
+        }
+
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || 'API Error');
+            const error = await response.json().catch(() => ({}));
+            throw new Error((error as any).error || 'API Error');
         }
 
         return response.json();
     }
 
     private async action(endpoint: string, method: string = 'POST') {
+        const token = getToken();
         const response = await fetch(`${this.proxyUrl}/action`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             },
             body: JSON.stringify({
                 host: this.config.host,
@@ -69,9 +81,16 @@ export class ProxmoxAPI {
             }),
         });
 
+        if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+            throw new Error('Authentication expired');
+        }
+
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || 'Action Error');
+            const error = await response.json().catch(() => ({}));
+            throw new Error((error as any).error || 'Action Error');
         }
 
         return response.json();

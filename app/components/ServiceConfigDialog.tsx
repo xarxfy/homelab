@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { saveServiceConfig } from "../lib/serviceConfig";
-import { getIntegrationsByType, type Integration } from "../lib/integrationConfig";
+import { getIntegrationsByType, getIntegrations, type Integration } from "../lib/integrationConfig";
 import { ProxmoxAPI } from "../lib/proxmoxApi";
 
 interface ServiceConfigDialogProps {
@@ -26,10 +26,19 @@ export default function ServiceConfigDialog({
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (isOpen && serviceType === 'proxmox') {
-            const proxmoxIntegrations = getIntegrationsByType('proxmox');
-            setIntegrations(proxmoxIntegrations);
-        }
+        const loadIntegrations = async () => {
+            try {
+                if (isOpen && serviceType === 'proxmox') {
+                    const all = await getIntegrations();
+                    const proxmoxIntegrations = getIntegrationsByType('proxmox', all);
+                    setIntegrations(proxmoxIntegrations);
+                }
+            } catch (e) {
+                console.error('Failed to load integrations', e);
+                setIntegrations([]);
+            }
+        };
+        loadIntegrations();
     }, [isOpen, serviceType]);
 
     useEffect(() => {
@@ -51,7 +60,7 @@ export default function ServiceConfigDialog({
                 setSelectedNode(nodeList[0].node);
             }
         } catch (err) {
-            console.error('Failed to load nodes');
+            console.error('Failed to load nodes', err);
         } finally {
             setLoading(false);
         }
