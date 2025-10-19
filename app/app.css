@@ -1,164 +1,207 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* ===============================
+   Base CSS Variables (Light Mode Default)
+   =============================== */
+:root {
+    color-scheme: light dark;
 
+    /* Light Mode Colors */
+    --color-bg: #F3F6FA;
+    --color-panel: #FFFFFF;
+    --color-text: #1E2026;
+    --color-text-muted: #6E7580;
+    --color-ok: #2FA76D;
+    --color-warn: #D79C32;
+    --color-error: #C74343;
+    --color-info: #2F88C2;
+    --color-border: #D0D5DD;
+
+    /* Tailwind Standard Variables */
+    --color-background: #F3F6FA;
+    --color-foreground: #1E2026;
+    --color-card: #FFFFFF;
+    --color-card-foreground: #1E2026;
+    --color-primary: #2F88C2;
+    --color-primary-foreground: #FFFFFF;
+    --color-accent: #2F88C2;
+    --color-accent-foreground: #0B0E14;
+    --color-muted: #E4E7EB;
+    --color-muted-foreground: #6E7580;
+
+    /* Sidebar Colors Light */
+    --color-sidebar: #FFFFFF;
+    --color-sidebar-foreground: #1E2026;
+    --color-sidebar-primary: #2F88C2;
+    --color-sidebar-primary-foreground: #FFFFFF;
+    --color-sidebar-accent: #F3F6FA;
+    --color-sidebar-accent-foreground: #1E2026;
+    --color-sidebar-border: #D0D5DD;
+    --color-sidebar-ring: #2F88C2;
+
+    /* Chart Colors */
+    --color-chart-1: #2F88C2;
+    --color-chart-2: #3CCB7F;
+    --color-chart-3: #E6B84D;
+    --color-chart-4: #C74343;
+    --color-chart-5: #8E64D8;
+}
+
+/* ===============================
+   Dark Mode (System Preference)
+   =============================== */
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #0D1117;
-        --panel: #161B22;
-        --text: #E6EDF3;
-        --text-muted: #8B949E;
-        --ok: #3FB950;
-        --warn: #F5A623;
-        --error: #F85149;
-        --info: #58A6FF;
-        --border: #21262D;
+        --color-bg: #0B0E14;
+        --color-panel: #141821;
+        --color-text: #E2E8F0;
+        --color-text-muted: #7B8494;
+        --color-ok: #3CCB7F;
+        --color-warn: #E6B84D;
+        --color-error: #E25555;
+        --color-info: #4CA8E0;
+        --color-border: #1E2430;
+
+        --color-background: #0B0E14;
+        --color-foreground: #E2E8F0;
+        --color-card: #141821;
+        --color-card-foreground: #E2E8F0;
+        --color-primary: #3BA4E8;
+        --color-primary-foreground: #0B0E14;
+        --color-accent: #2F88C2;
+        --color-accent-foreground: #0B0E14;
+        --color-muted: #1C212B;
+        --color-muted-foreground: #8B93A1;
+
+        --color-sidebar: #141821;
+        --color-sidebar-foreground: #E2E8F0;
+        --color-sidebar-primary: #3BA4E8;
+        --color-sidebar-primary-foreground: #0B0E14;
+        --color-sidebar-accent: #1C212B;
+        --color-sidebar-accent-foreground: #E2E8F0;
+        --color-sidebar-border: #1E2430;
+        --color-sidebar-ring: #3BA4E8;
+
+        --color-chart-1: #3BA4E8;
+        --color-chart-2: #3CCB7F;
+        --color-chart-3: #E6B84D;
+        --color-chart-4: #E25555;
+        --color-chart-5: #8E64D8;
     }
 }
 
-body {
-    background: var(--bg);
-    color: var(--text);
-}
-.card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    color: var(--text);
-}
-.status-ok { color: var(--ok); }
-.status-warn { color: var(--warn); }
-.status-error { color: var(--error); }
-.status-info { color: var(--info); }
-
+/* ===============================
+   Tailwind Theme Registration
+   =============================== */
 @theme inline {
-    --radius-sm: calc(var(--radius) - 4px);
-    --radius-md: calc(var(--radius) - 2px);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) + 4px);
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-card: var(--card);
-    --color-card-foreground: var(--card-foreground);
-    --color-popover: var(--popover);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-secondary: var(--secondary);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-accent: var(--accent);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-destructive: var(--destructive);
-    --color-border: var(--border);
-    --color-input: var(--input);
-    --color-ring: var(--ring);
-    --color-chart-1: var(--chart-1);
-    --color-chart-2: var(--chart-2);
-    --color-chart-3: var(--chart-3);
-    --color-chart-4: var(--chart-4);
-    --color-chart-5: var(--chart-5);
-    --color-sidebar: var(--sidebar);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-ring: var(--sidebar-ring);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
 
-    /* Custom colors now available as Tailwind utilities */
-    --color-bg: var(--bg);
-    --color-panel: var(--panel);
-    --color-text: var(--text);
-    --color-text-muted: var(--text-muted);
-    --color-ok: var(--ok);
-    --color-warn: var(--warn);
-    --color-error: var(--error);
-    --color-info: var(--info);
+    /* Register colors for Tailwind utilities */
+    --color-bg: var(--color-bg);
+    --color-panel: var(--color-panel);
+    --color-text: var(--color-text);
+    --color-text-muted: var(--color-text-muted);
+    --color-ok: var(--color-ok);
+    --color-warn: var(--color-warn);
+    --color-error: var(--color-error);
+    --color-info: var(--color-info);
+    --color-border: var(--color-border);
 
-    --bg: #F6F8FA;
-    --panel: #FFFFFF;
-    --text: #1F2328;
-    --text-muted: #57606A;
-    --ok: #2DA44E;
-    --warn: #B78103;
-    --error: #CF222E;
-    --info: #0969DA;
-    --border: oklch(0.922 0 0);
-    --radius: 0.625rem;
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --color-background: var(--color-background);
+    --color-foreground: var(--color-foreground);
+    --color-card: var(--color-card);
+    --color-card-foreground: var(--color-card-foreground);
+    --color-primary: var(--color-primary);
+    --color-primary-foreground: var(--color-primary-foreground);
+    --color-accent: var(--color-accent);
+    --color-accent-foreground: var(--color-accent-foreground);
+    --color-muted: var(--color-muted);
+    --color-muted-foreground: var(--color-muted-foreground);
+
+    --color-sidebar: var(--color-sidebar);
+    --color-sidebar-foreground: var(--color-sidebar-foreground);
+    --color-sidebar-primary: var(--color-sidebar-primary);
+    --color-sidebar-primary-foreground: var(--color-sidebar-primary-foreground);
+    --color-sidebar-accent: var(--color-sidebar-accent);
+    --color-sidebar-accent-foreground: var(--color-sidebar-accent-foreground);
+    --color-sidebar-border: var(--color-sidebar-border);
+    --color-sidebar-ring: var(--color-sidebar-ring);
+
+    --color-chart-1: var(--color-chart-1);
+    --color-chart-2: var(--color-chart-2);
+    --color-chart-3: var(--color-chart-3);
+    --color-chart-4: var(--color-chart-4);
+    --color-chart-5: var(--color-chart-5);
 }
 
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-}
-
+/* ===============================
+   Base Layer
+   =============================== */
 @layer base {
     * {
-        @apply border-border outline-ring/50;
+        @apply border-border;
     }
+
     body {
-        @apply bg-background text-foreground;
+        @apply bg-bg text-text;
     }
+}
+
+/* ===============================
+   Custom Card Component
+   =============================== */
+.card {
+    @apply bg-panel border border-border text-text rounded-xl transition-all duration-300;
+}
+
+.card:hover {
+    @apply border-info;
+}
+
+/* React Grid Layout Styles */
+.react-grid-layout {
+    position: relative;
+    transition: height 200ms ease;
+}
+
+.react-grid-item {
+    transition: all 200ms ease;
+    transition-property: left, top, width, height;
+}
+
+.react-grid-item.resizing {
+    transition: none;
+    z-index: 100;
+}
+
+.react-grid-item.react-draggable-dragging {
+    transition: none;
+    z-index: 100;
+}
+
+.react-grid-item.dropping {
+    visibility: hidden;
+}
+
+.react-grid-item.react-grid-placeholder {
+    background: rgb(59, 130, 246);
+    opacity: 0.2;
+    transition-duration: 100ms;
+    z-index: 2;
+    border-radius: 0.5rem;
+}
+
+.react-resizable-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
+.react-resizable-handle-se {
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
 }
