@@ -6,8 +6,8 @@ export interface Integration {
     id: string;
     name: string;
     type: string;
-    config: any;
-    created_at: string;
+    config: Record<string, any>;
+    created_at?: string;
 }
 
 async function fetchWithAuth(url: string, options: RequestInit = {}) {
@@ -41,30 +41,28 @@ async function fetchWithAuth(url: string, options: RequestInit = {}) {
     return response.json();
 }
 
-export async function getIntegrations(): Promise<Integration[]> {
-    return fetchWithAuth(`${API_URL}/api/integrations`);
-}
+export const getIntegrations = async (): Promise<Integration[]> => {
+    try {
+        return await fetchWithAuth(`${API_URL}/api/integrations`);
+    } catch (error) {
+        console.error('Failed to load integrations:', error);
+        return [];
+    }
+};
 
-export async function saveIntegration(integration: Integration): Promise<void> {
+export const saveIntegration = async (integration: Integration): Promise<void> => {
     await fetchWithAuth(`${API_URL}/api/integrations`, {
         method: 'POST',
         body: JSON.stringify(integration),
     });
-}
+};
 
-export async function updateIntegration(id: string, integration: Integration): Promise<void> {
-    await fetchWithAuth(`${API_URL}/api/integrations/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(integration),
-    });
-}
-
-export async function deleteIntegration(id: string): Promise<void> {
+export const deleteIntegration = async (id: string): Promise<void> => {
     await fetchWithAuth(`${API_URL}/api/integrations/${id}`, {
         method: 'DELETE',
     });
-}
+};
 
-export function getIntegrationsByType(type: string, integrations: Integration[]): Integration[] {
+export const getIntegrationsByType = (type: string, integrations: Integration[]): Integration[] => {
     return integrations.filter(i => i.type === type);
-}
+};

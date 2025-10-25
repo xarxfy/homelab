@@ -53,6 +53,75 @@ app.post('/api/proxmox/test', async (req, res) => {
     }
 });
 
+// ============================================
+// ADGUARD HOME PROXY
+// ============================================
+
+// AdGuard Home Query (GET requests)
+app.post('/api/adguard/query', authenticateToken, async (req, res) => {
+    const { host, port, username, password, endpoint } = req.body;
+
+    if (!host || !username || !password || !endpoint) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const url = `http://${host}:${port}${endpoint}`;
+        const auth = Buffer.from(`${username}:${password}`).toString('base64');
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Basic ${auth}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`AdGuard API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('AdGuard API Error:', error);
+        res.status(500).json({ error: error.message || 'AdGuard API request failed' });
+    }
+});
+
+// AdGuard Home Action (POST/PUT/DELETE requests)
+app.post('/api/adguard/action', authenticateToken, async (req, res) => {
+    const { host, port, username, password, endpoint, method = 'POST', body = {} } = req.body;
+
+    if (!host || !username || !password || !endpoint) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const url = `http://${host}:${port}${endpoint}`;
+        const auth = Buffer.from(`${username}:${password}`).toString('base64');
+
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                'Authorization': `Basic ${auth}`,
+                'Content-Type': 'application/json',
+            },
+            body: method !== 'GET' ? JSON.stringify(body) : undefined,
+        });
+
+        if (!response.ok) {
+            throw new Error(`AdGuard API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('AdGuard Action Error:', error);
+        res.status(500).json({ error: error.message || 'AdGuard action failed' });
+    }
+});
+
 // ==================== AUTH ROUTES ====================
 
 // Register

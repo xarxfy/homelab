@@ -13,11 +13,9 @@ export function meta({}: Route.MetaArgs) {
 export default function Dashboard() {
     return (
         <ProtectedRoute>
-            <AppLayout>
                 <div className="p-6">
                     <DashboardGrid />
                 </div>
-            </AppLayout>
         </ProtectedRoute>
     );
 }

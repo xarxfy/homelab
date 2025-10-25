@@ -5,13 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e562f410-8000-4bf1-a89d-0591b3be91ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/components/ChangePasswordDialog.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/AddTileDialog.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/widgets/AdGuardWidget.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/lib/adguardApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/lib/integrations/adguard.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/lib/integrations/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/lib/integrations/proxmox.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/ProtectedRoute.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/DashboardGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/DashboardGrid.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/ServiceConfigDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/ServiceConfigDialog.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/widgets/ProxmoxWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/widgets/ProxmoxWidget.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/integrationConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/integrationConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/serviceConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/serviceConfig.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/integrations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/integrations.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/homelab.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/homelab.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +65,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "editor.preferences.completion",
     "to.speed.mode.migration.done": "true",
     "ts.external.directory.path": "C:\\Users\\marcg\\Documents\\code\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
@@ -93,6 +104,7 @@
       <workItem from="1761377631030" duration="169000" />
       <workItem from="1761377815895" duration="132000" />
       <workItem from="1761377963642" duration="1691000" />
+      <workItem from="1761402668387" duration="3981000" />
     </task>
     <servers />
   </component>
