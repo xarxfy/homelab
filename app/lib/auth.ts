@@ -4,6 +4,7 @@ interface User {
     id: number;
     username: string;
     email: string;
+    must_change_password?: boolean;
 }
 
 interface AuthResponse {
@@ -25,7 +26,6 @@ export async function register(username: string, email: string, password: string
 
     const data = await response.json();
 
-    // Save token
     localStorage.setItem('auth_token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
 
@@ -46,7 +46,36 @@ export async function login(username: string, password: string): Promise<AuthRes
 
     const data = await response.json();
 
-    // Save token
+    localStorage.setItem('auth_token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    return data;
+}
+
+export async function updateProfile(
+    username: string,
+    email: string,
+    currentPassword: string,
+    newPassword?: string
+): Promise<AuthResponse> {
+    const token = getToken();
+
+    const response = await fetch(`${API_URL}/api/auth/profile`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ username, email, currentPassword, newPassword }),
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to update profile');
+    }
+
+    const data = await response.json();
+
     localStorage.setItem('auth_token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
 
@@ -70,4 +99,9 @@ export function getUser(): User | null {
 
 export function isAuthenticated(): boolean {
     return !!getToken();
+}
+
+export function mustChangePassword(): boolean {
+    const user = getUser();
+    return user?.must_change_password === true;
 }

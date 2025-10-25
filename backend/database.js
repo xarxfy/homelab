@@ -1,4 +1,5 @@
 import Database from 'better-sqlite3';
+import bcrypt from 'bcrypt';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -17,6 +18,7 @@ db.exec(`
     username TEXT UNIQUE NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
+    must_change_password BOOLEAN DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
@@ -41,6 +43,33 @@ db.exec(`
   CREATE INDEX IF NOT EXISTS idx_integrations_user ON integrations(user_id);
   CREATE INDEX IF NOT EXISTS idx_dashboards_user ON dashboards(user_id);
 `);
+
+// Create default admin user if no users exist
+async function createDefaultUser() {
+    const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get();
+
+    if (userCount.count === 0) {
+        console.log('📝 Erstelle Standard-Admin-User...');
+
+        const defaultUsername = 'admin';
+        const defaultEmail = 'admin@nexus.local';
+        const defaultPassword = 'admin123';
+
+        const passwordHash = await bcrypt.hash(defaultPassword, 10);
+
+        db.prepare(
+            'INSERT INTO users (username, email, password_hash, must_change_password) VALUES (?, ?, ?, 1)'
+        ).run(defaultUsername, defaultEmail, passwordHash);
+
+        console.log('✅ Standard-User erstellt:');
+        console.log('   Username: admin');
+        console.log('   Password: admin123');
+        console.log('   ⚠️  BITTE ÄNDERE DAS PASSWORT NACH DEM ERSTEN LOGIN!');
+    }
+}
+
+// Initialize default user
+await createDefaultUser();
 
 console.log('✅ Database initialized');
 

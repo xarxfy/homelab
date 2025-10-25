@@ -5,32 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e562f410-8000-4bf1-a89d-0591b3be91ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/components/ProtectedRoute.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/proxmoxTest.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/login.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/routes/register.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/database.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/homelab.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/middleware/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/ChangePasswordDialog.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/AppLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/AppLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/ServiceConfigDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/ServiceConfigDialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/integrationConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/integrationConfig.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/proxmoxApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/proxmoxApi.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/dashboard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/integrations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/integrations.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/(" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api.getAllVMsAndContainers(node))" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/clearInterval(interval)" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/node.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/ProtectedRoute.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/ProtectedRoute.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homelab.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/homelab.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/{" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,26 +36,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Marc/Documents/code/homelab-dashboard&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Marc\\Documents\\code\\homelab-dashboard\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "javascript.nodejs.core.library.configured.version": "22.21.0",
+    "javascript.nodejs.core.library.typings.version": "22.18.12",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/Marc/Documents/code/homelab-dashboard",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\Users\\marcg\\Documents\\code\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Marc\Documents\code\homelab-dashboard\public\images" />
@@ -99,6 +89,10 @@
       <workItem from="1760768658381" duration="3619000" />
       <workItem from="1760875031216" duration="1714000" />
       <workItem from="1760876774966" duration="2341000" />
+      <workItem from="1761377464399" duration="143000" />
+      <workItem from="1761377631030" duration="169000" />
+      <workItem from="1761377815895" duration="132000" />
+      <workItem from="1761377963642" duration="1691000" />
     </task>
     <servers />
   </component>

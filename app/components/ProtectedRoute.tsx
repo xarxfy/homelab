@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { isAuthenticated } from "../lib/auth";
+import { isAuthenticated, mustChangePassword, getUser } from "../lib/auth";
 import { Loader } from "lucide-react";
+import ChangePasswordDialog from "./ChangePasswordDialog";
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -9,6 +10,7 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     const [checking, setChecking] = useState(true);
+    const [showPasswordDialog, setShowPasswordDialog] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,8 +18,17 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
             navigate("/login");
         } else {
             setChecking(false);
+            if (mustChangePassword()) {
+                setShowPasswordDialog(true);
+            }
         }
     }, [navigate]);
+
+    const handlePasswordChanged = () => {
+        setShowPasswordDialog(false);
+        // Reload user data
+        window.location.reload();
+    };
 
     if (checking) {
         return (
@@ -27,5 +38,12 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
         );
     }
 
-    return <>{children}</>;
+    return (
+        <>
+            {showPasswordDialog && (
+                <ChangePasswordDialog onSuccess={handlePasswordChanged} canClose={false} />
+            )}
+            {children}
+        </>
+    );
 }

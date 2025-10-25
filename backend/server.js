@@ -115,12 +115,71 @@ app.post('/api/auth/login', async (req, res) => {
         const token = generateToken(user);
 
         res.json({
-            user: { id: user.id, username: user.username, email: user.email },
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                must_change_password: user.must_change_password === 1
+            },
             token
         });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Login failed' });
+    }
+});
+
+// Update user profile
+app.put('/api/auth/profile', authenticateToken, async (req, res) => {
+    const { username, email, currentPassword, newPassword } = req.body;
+
+    if (!username || !email) {
+        return res.status(400).json({ error: 'Username and email required' });
+    }
+
+    try {
+        const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Check if current password is provided when changing password
+        if (newPassword) {
+            if (!currentPassword) {
+                return res.status(400).json({ error: 'Current password required to change password' });
+            }
+
+            const valid = await bcrypt.compare(currentPassword, user.password_hash);
+            if (!valid) {
+                return res.status(401).json({ error: 'Current password is incorrect' });
+            }
+
+            if (newPassword.length < 6) {
+                return res.status(400).json({ error: 'New password must be at least 6 characters' });
+            }
+
+            const newPasswordHash = await bcrypt.hash(newPassword, 10);
+
+            db.prepare(
+                'UPDATE users SET username = ?, email = ?, password_hash = ?, must_change_password = 0 WHERE id = ?'
+            ).run(username, email, newPasswordHash, req.user.id);
+        } else {
+            db.prepare(
+                'UPDATE users SET username = ?, email = ?, must_change_password = 0 WHERE id = ?'
+            ).run(username, email, req.user.id);
+        }
+
+        const updatedUser = { id: req.user.id, username, email, must_change_password: false };
+        const token = generateToken(updatedUser);
+
+        res.json({
+            user: updatedUser,
+            token
+        });
+    } catch (error) {
+        console.error('Update profile error:', error);
+        res.status(500).json({ error: 'Failed to update profile' });
     }
 });
 
