@@ -7,7 +7,7 @@ import {
     type Integration,
 } from "../lib/integrationConfig";
 import { getAllIntegrations, getIntegrationByType } from "../lib/integrations";
-import ProtectedRoute from "~/components/ProtectedRoute";
+import ProtectedRoute from "~/components/ProtectedRoute";1
 import AppLayout from "~/components/AppLayout";
 
 interface IntegrationFormData {

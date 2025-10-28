@@ -122,6 +122,111 @@ app.post('/api/adguard/action', authenticateToken, async (req, res) => {
     }
 });
 
+// ============================================
+// NGINX PROXY MANAGER PROXY
+// ============================================
+
+// NPM Authentication
+app.post('/api/nginx-proxy-manager/auth', authenticateToken, async (req, res) => {
+    const { host, port, email, password } = req.body;
+
+    if (!host || !email || !password) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const url = `http://${host}:${port}/api/tokens`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                identity: email,
+                secret: password,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`NPM Auth returned ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json({ token: data.token });
+    } catch (error) {
+        console.error('NPM Auth Error:', error);
+        res.status(500).json({ error: error.message || 'NPM authentication failed' });
+    }
+});
+
+// NPM Query
+app.post('/api/nginx-proxy-manager/query', authenticateToken, async (req, res) => {
+    const { host, port, token, endpoint } = req.body;
+
+    if (!host || !token || !endpoint) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const url = `http://${host}:${port}${endpoint}`;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`NPM API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('NPM API Error:', error);
+        res.status(500).json({ error: error.message || 'NPM API request failed' });
+    }
+});
+
+// NPM Action (Enable/Disable Hosts)
+app.post('/api/nginx-proxy-manager/action', authenticateToken, async (req, res) => {
+    const { host, port, token, endpoint, method = 'POST', body = {} } = req.body;
+
+    if (!host || !token || !endpoint) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const url = `http://${host}:${port}${endpoint}`;
+
+        console.log(`NPM Action ${method} request to:`, url);
+
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: method !== 'GET' ? JSON.stringify(body) : undefined,
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('NPM Action failed:', response.status, errorText);
+            throw new Error(`NPM API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('NPM Action Error:', error);
+        res.status(500).json({ error: error.message || 'NPM action failed' });
+    }
+});
+
 // ==================== AUTH ROUTES ====================
 
 // Register

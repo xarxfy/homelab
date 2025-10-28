@@ -1,9 +1,11 @@
 import { proxmoxIntegration } from "./proxmox";
 import { adguardIntegration } from "./adguard";
+import { nginxProxyManagerIntegration } from "./nginx-proxy-manager";
 
 export const integrationRegistry = {
     proxmox: proxmoxIntegration,
     adguard: adguardIntegration,
+    "nginx-proxy-manager": nginxProxyManagerIntegration,
 };
 
 export type IntegrationType = keyof typeof integrationRegistry;

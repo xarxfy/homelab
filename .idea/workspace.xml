@@ -5,24 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e562f410-8000-4bf1-a89d-0591b3be91ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/components/AddTileDialog.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/widgets/AdGuardWidget.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/adguardApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/integrations/adguard.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/integrations/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/integrations/proxmox.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/widgets/NginxProxyManagerWidgets.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/lib/integrations/nginx-proxy-manager.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/lib/nginxProxyManagerApi.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/AddTileDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/AddTileDialog.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/DashboardGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/DashboardGrid.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/ServiceConfigDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/ServiceConfigDialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/widgets/ProxmoxWidget.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/widgets/ProxmoxWidget.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/integrationConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/integrationConfig.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/serviceConfig.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/serviceConfig.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routes/dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/integrations/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/integrations/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/routes/integrations.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/integrations.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/login.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/homelab.db" beforeDir="false" afterPath="$PROJECT_DIR$/backend/homelab.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,35 +40,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "javascript.nodejs.core.library.configured.version": "22.21.0",
-    "javascript.nodejs.core.library.typings.version": "22.18.12",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/Marc/Documents/code/homelab-dashboard",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.completion",
-    "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Users\\marcg\\Documents\\code\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;22.21.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;22.18.12&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Marc/Documents/code/homelab-dashboard&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\marcg\\Documents\\code\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Marc\Documents\code\homelab-dashboard\public\images" />
@@ -104,7 +97,9 @@
       <workItem from="1761377631030" duration="169000" />
       <workItem from="1761377815895" duration="132000" />
       <workItem from="1761377963642" duration="1691000" />
-      <workItem from="1761402668387" duration="3981000" />
+      <workItem from="1761402668387" duration="4033000" />
+      <workItem from="1761559824435" duration="1114000" />
+      <workItem from="1761643797579" duration="1010000" />
     </task>
     <servers />
   </component>

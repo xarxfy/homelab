@@ -14,6 +14,7 @@ import {
     deleteServiceConfig,
     type TileLayout
 } from "../lib/serviceConfig";
+import NginxProxyManagerWidget from "~/components/widgets/NginxProxyManagerWidgets";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -153,6 +154,8 @@ export default function DashboardGrid() {
                 return <ProxmoxWidget key={`${tile.i}-${widgetKey}`} serviceId={tile.i} />;
             case "adguard":
                 return <AdGuardWidget key={`${tile.i}-${widgetKey}`} serviceId={tile.i} />;
+            case "nginx-proxy-manager":
+                return <NginxProxyManagerWidget key={`${tile.i}-${widgetKey}`} serviceId={tile.i} />;
             default:
                 return (
                     <div className="text-gray-500 dark:text-gray-400 text-center">

@@ -15,6 +15,7 @@ export default function AddTileDialog({ onClose, onAdd }: AddTileDialogProps) {
         { id: "docker", name: "Docker", icon: "🐳", description: "Docker Container", disabled: true },
         { id: "weather", name: "Wetter", icon: "🌤️", description: "Wetter Widget", disabled: true },
         { id: "adguard", name: "AdGuard Home", icon: "🛡️", description: "DNS & Ad-Blocking Stats" },
+        { id: "nginx-proxy-manager", name: "Nginx Proxy Manager", icon: "🌐", description: "Reverse Proxy & SSL" },
     ];
 
     const handleAdd = () => {
